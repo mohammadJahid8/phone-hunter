@@ -19,22 +19,35 @@ const loadPhones = () => {
             .then(data => displayPhones(data.data.slice(0, 20)))
             .catch(error => displayError(error));
     }
-
-
-
-
     //clearing details after new search
     const detailsContainer = document.getElementById('details-container');
     detailsContainer.textContent = '';
 }
+
+
+
+// const loadAllPhones = () => {
+//     const searchField = document.getElementById('search-field');
+//     const searchText = searchField.value
+
+//     const url = `https://openapi.programming-hero.com/api/phones?search=${searchText}`;
+//     fetch(url)
+//         .then(res => res.json())
+//         .then(data => displayPhones(data.data.slice(0, 20)))
+//         .catch(error => displayError(error));
+// }
+
+
+
+
 // showing error msg
 const displayError = error => {
     document.getElementById('error-message').style.display = 'block';
 }
 
-//display phones
+//<--------------display phones section starts------------------>
 const displayPhones = (phones) => {
-
+    //getting phone container/search result
     const phoneContainer = document.getElementById('phone-container');
     phoneContainer.textContent = '';
     if (phones.length == 0) {
@@ -65,9 +78,12 @@ const loadPhoneDetails = (phoneId) => {
         .then(response => response.json())
         .then(data => displayDetails(data.data));
 }
+// <-----------display phones section ends------->
 
-// showing details 
+
+// <-----------showing details section starts------->
 const displayDetails = (phoneId) => {
+    //getting details container
     const detailsContainer = document.getElementById('details-container');
     detailsContainer.textContent = '';
     detailsContainer.innerHTML = `
@@ -95,6 +111,8 @@ const displayDetails = (phoneId) => {
         </div>
     `
 }
+// <----------showing details section ends----------->
+
 // converting sensor array to string 
 function arrayToString(array) {
     let returned = ``;
