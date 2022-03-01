@@ -16,14 +16,46 @@
 <body>
     <header class="container">
         <h1 class="text-center mt-5 mb-3 text-success">Mobile World</h1>
-        <div id="search-field" class="d-flex w-50 mx-auto">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button id="search-button" class="btn btn-outline-success" type="submit">Search</button>
+        <div class="d-flex w-50 mx-auto">
+            <input id="search-field" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button onclick="loadPhones()" id="search-button" class="btn btn-outline-success"
+                type="submit">Search</button>
         </div>
     </header>
 
     <section class="container mt-5">
-        <div id="cards-container" class="row  g-5">
+        <div id="details-container" class="row justify-content-center">
+            <!-- <div class="card" style="width: 18rem;">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content.</p>
+                </div>
+            </div> -->
+        </div>
+    </section>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="container mt-5">
+        <div id="phone-container" class="row  g-5">
             <!-- <div class="card" style="width: 18rem;">
                 <img src="..." class="card-img-top" alt="...">
                 <div class="card-body">
