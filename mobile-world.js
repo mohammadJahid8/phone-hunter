@@ -9,7 +9,7 @@ const loadPhones = () => {
     searchField.value = '';
     //error msg
     document.getElementById('error-message').style.display = 'none';
-    if (searchText == '') {
+    if (searchText == '' || searchText == 0) {
         document.getElementById('error-message').style.display = 'block';
     }
     else {
@@ -19,6 +19,13 @@ const loadPhones = () => {
             .then(data => displayPhones(data.data.slice(0, 20)))
             .catch(error => displayError(error));
     }
+
+
+
+
+    //clearing details after new search
+    const detailsContainer = document.getElementById('details-container');
+    detailsContainer.textContent = '';
 }
 // showing error msg
 const displayError = error => {
@@ -50,6 +57,7 @@ const displayPhones = (phones) => {
         phoneContainer.appendChild(div);
     })
 }
+
 // load details 
 const loadPhoneDetails = (phoneId) => {
     const url = `https://openapi.programming-hero.com/api/phone/${phoneId}`
@@ -57,9 +65,11 @@ const loadPhoneDetails = (phoneId) => {
         .then(response => response.json())
         .then(data => displayDetails(data.data));
 }
+
+// showing details 
 const displayDetails = (phoneId) => {
-    console.log(phoneId);
     const detailsContainer = document.getElementById('details-container');
+    detailsContainer.textContent = '';
     detailsContainer.innerHTML = `
         <div class="card rounded-3 align-items-center shadow bg-body rounded border-0 pt-3" style="width: 18rem;">
                 <img src="${phoneId.image}" class="card-img-top w-75" alt="...">
