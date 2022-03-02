@@ -17,12 +17,14 @@
 
 </head>
 
-<body>
-    <header id="scroll" class="container">
+<body class="">
+
+    <header class="container">
         <h1 class="text-center mt-5 mb-3 text-success title">Mobile World <i class="fa fa-mobile-phone"></i></h1>
-        <div class="d-flex w-50 mx-auto">
-            <input id="search-field" class="form-control me-2" type="search" placeholder="Device Name" aria-label="Search">
-            <button onclick="loadPhones()" id="search-button" class="btn btn-outline-success"
+        <div class="d-flex w-75 mx-auto ">
+            <input id="search-field" class="form-control me-2 p-2" type="search" placeholder="Search Your Favourite Phone"
+                aria-label="Search">
+            <button onclick="loadPhones()" id="search-button" class="btn btn-outline-success p-2"
                 type="submit">Search</button>
         </div>
 
@@ -38,28 +40,38 @@
         </div>
 
     </header>
-
-    <!-- show details card -->
-    <section class="container mt-5">
-        <div id="details-container" class="row justify-content-center">
-            <img img-fluid src="" alt="">
-        </div>
-    </section>
-
-    <!-- show search result-->
-    <section class="container mt-5 mb-5">
-        <div id="phone-container" class="row gy-5 gx-md-5">
-
-        </div>
+    <main>
+        <section class="container mt-5 mb-5">
+            <h4 id="latest-title" class="mb-4">Latest Collections</h1>
+            <div id="latest-collection" class="row gy-5 gx-md-5">
+            </div>
 
 
-    </section>
-    <div class="container d-flex justify-content-center">
-        <button id="more-button" onclick="" class="btn btn-outline-success" type="submit">Search</button>
-    </div>
+
+            <!-- show details card -->
+            <section class="container mt-5">
+                <div id="details-container" class="row justify-content-center">
+                    <img img-fluid src="" alt="">
+                </div>
+            </section>
+
+            <!-- show search result-->
+            <section class="container mt-5 mb-5">
+                <div id="phone-container" class="row gy-5 gx-md-5">
+                </div>
 
 
-    <!-- linked js file -->
+
+            </section>
+            <section class="mb-5">
+                <div class="container d-flex justify-content-center">
+                    <button id="show-all-button" onclick="" class="btn btn-success" type="submit">Show All</button>
+                </div>
+            </section>
+
+
+            <!-- linked js file -->
+    </main>
     <script src="mobile-world.js"></script>
 </body>
 

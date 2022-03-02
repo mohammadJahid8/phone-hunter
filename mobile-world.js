@@ -1,9 +1,41 @@
+//------------>showing latest collections----------->
+const latestContainer = document.getElementById('latest-collection');
+const loadlatestCollections = () => {
+    fetch(`https://openapi.programming-hero.com/api/phones?search=iphone`)
+        .then(response => response.json())
+        .then(data => displayLatestCollections(data.data.slice(0, 6)));
+
+}
+loadlatestCollections();
+
+const displayLatestCollections = (phones) => {
+    const latestContainer = document.getElementById('latest-collection')
+    phones.forEach((phone) => {
+        const div = document.createElement('div');
+        div.classList.add('col-md-6', 'col-lg-4');
+        div.innerHTML = `
+            <div class="card rounded-3 align-items-center shadow-lg bg-body rounded border-0 pt-3">
+                <img src="${phone.image}" class="card-img-top w-75" alt="...">
+                <div class="card-body">
+                    <h4 class="card-title">${phone.phone_name}</h4>
+                    <h6 class="fs-5 card-text"><span class="fw-bolder ">Brand:</span>${phone.brand}</h6>
+                    
+                </div>
+            </div>
+        `
+        latestContainer.appendChild(div);
+    })
+}
+
 //error msg
 document.getElementById('error-message').style.display = 'none';
 //  url fetched and load phone 
 const loadPhones = () => {
     const searchField = document.getElementById('search-field');
     const searchText = searchField.value
+
+    latestContainer.textContent = '';
+    document.getElementById('latest-title').style.display = 'none';
     // show spinnerr 
     document.getElementById('spinner').style.display = "block";
     // clear search field
@@ -12,6 +44,9 @@ const loadPhones = () => {
     document.getElementById('error-message').style.display = 'none';
     if (searchText == '' || searchText == 0) {
         document.getElementById('error-message').style.display = 'block';
+        document.getElementById('spinner').style.display = "none";
+        const moreButton = document.getElementById('show-all-button');
+        moreButton.style.display = 'none';
     }
     else {
         const url = `https://openapi.programming-hero.com/api/phones?search=${searchText}`;
@@ -20,9 +55,9 @@ const loadPhones = () => {
             .then(data => {
                 displayPhones(data.data.slice(0, 20))
                 //showing more results
-                document.getElementById('more-button').addEventListener('click', () => {
-                    displayPhones(data.data.slice(0, 1000));
-                    document.getElementById('more-button').style.display = 'none';
+                document.getElementById('show-all-button').addEventListener('click', () => {
+                    displayPhones(data.data);
+                    document.getElementById('show-all-button').style.display = 'none';
                 })
             })
             .catch(error => displayError(error));
@@ -38,17 +73,20 @@ const displayError = error => {
 
 //<--------------display phones section starts------------------>
 const displayPhones = (phones) => {
-    const moreButton = document.getElementById('more-button');
+    const moreButton = document.getElementById('show-all-button');
     moreButton.style.display = 'block';
-
+    document.getElementById('error-message').style.display = 'none';
     //getting phone container/search result
     const phoneContainer = document.getElementById('phone-container');
     phoneContainer.textContent = '';
     if (phones.length == 0) {
         document.getElementById('error-message').style.display = 'block';
+        document.getElementById('spinner').style.display = "none";
+        const moreButton = document.getElementById('show-all-button');
+        moreButton.style.display = 'none';
+
     }
     phones.forEach((phone) => {
-        console.log(phone);
         const div = document.createElement('div');
         div.classList.add('col-md-6', 'col-lg-4');
         div.innerHTML = `
@@ -57,7 +95,7 @@ const displayPhones = (phones) => {
                 <div class="card-body">
                     <h4 class="card-title">${phone.phone_name}</h4>
                     <h6 class="fs-5 card-text"><span class="fw-bolder ">Brand:</span>${phone.brand}</h6>
-                    <button onclick="loadPhoneDetails('${phone.slug}')" class="card-btn btn btn-success px-1 fs-6"> <a class="text-white text-decoration-none" href="#scroll"><span class="btn-text">Show Details</span></a></button>
+                    <button onclick="loadPhoneDetails('${phone.slug}')" class="card-btn btn btn-success px-1 fs-6 mx-auto"><span class="btn-text">Show Details</span></button>
                 </div>
             </div>
             
@@ -66,8 +104,6 @@ const displayPhones = (phones) => {
 
     })
     document.getElementById('spinner').style.display = "none";
-    // toggleSpinner('none');
-
 }
 // <-----------display phones section ends------->
 
@@ -85,29 +121,30 @@ const displayDetails = (phoneId) => {
     const detailsContainer = document.getElementById('details-container');
     detailsContainer.textContent = '';
     detailsContainer.innerHTML = `
-        <div class="card rounded-3 align-items-center shadow bg-body border-0 pt-3" style="width: 18rem;">
-                <img src="${phoneId.image}" class="card-img-top w-75" alt="...">
-                <div class="card-body gy-3">
-                    <h6><span class="fw-bold">Name:</span> ${phoneId.name}</h6>
-                    <h6><span class="fw-bold">Realese Date:</span> ${phoneId.releaseDate === '' ? 'unavailable' : `${phoneId.releaseDate}`}</h6>
-                    <h6><span class="fw-bold">Brand:</span> ${phoneId.brand}</h6>
-                    <h6><span class="fw-bold">Storage:</span> ${phoneId.mainFeatures.storage}</h6>
-                    <h6><span class="fw-bold">Display Size:</span> ${phoneId.mainFeatures.displaySize}</h6>
-                    <h6><span class="fw-bold">Chipset:</span> ${phoneId.mainFeatures.chipSet}</h6>
-                    <h6><span class="fw-bold">Sensor:</span> ${arrayToString(phoneId.mainFeatures.sensors)}</h6>
-                    ${phoneId.others ? `
-                    <h5 class="fw-bold my-3">More Specifications</h5>
-                    <ul>
-                        <li><span class="fw-bolder">Bluetooth:</span> ${phoneId.others.Bluetooth}</li>
-                        <li><span class="fw-bolder">GPS:</span> ${phoneId.others.GPS}</li>
-                        <li><span class="fw-bolder">NFC:</span> ${phoneId.others.NFC}</li>
-                        <li><span class="fw-bolder">Radio:</span> ${phoneId.others.Radio}</li>
-                        <li><span class="fw-bolder">USB:</span> ${phoneId.others.USB}</li>
-                        <li><span class="fw-bolder">WLAN:</span> ${phoneId.others.WLAN}</li>
-                    </ul>` : ''}
-                </div>
-        </div>
-    `
+         <div class="card rounded-3 align-items-center shadow bg-body border-0 pt-3" style="width: 18rem;">
+                 <img src="${phoneId.image}" class="card-img-top w-75" alt="...">
+                 <div class="card-body gy-3">
+                     <h6><span class="fw-bold">Name:</span> ${phoneId.name}</h6>
+                     <h6><span class="fw-bold">Realese Date:</span> ${phoneId.releaseDate === '' ? 'unavailable' : `${phoneId.releaseDate}`}</h6>
+                     <h6><span class="fw-bold">Brand:</span> ${phoneId.brand}</h6>
+                     <h6><span class="fw-bold">Storage:</span> ${phoneId.mainFeatures.storage}</h6>
+                     <h6><span class="fw-bold">Display Size:</span> ${phoneId.mainFeatures.displaySize}</h6>
+                     <h6><span class="fw-bold">Chipset:</span> ${phoneId.mainFeatures.chipSet}</h6>
+                     <h6><span class="fw-bold">Sensor:</span> ${arrayToString(phoneId.mainFeatures.sensors)}</h6>
+                     ${phoneId.others ? `
+                     <h5 class="fw-bold my-3">More Specifications</h5>
+                     <ul>
+                         <li><span class="fw-bolder">Bluetooth:</span> ${phoneId.others.Bluetooth}</li>
+                         <li><span class="fw-bolder">GPS:</span> ${phoneId.others.GPS}</li>
+                         <li><span class="fw-bolder">NFC:</span> ${phoneId.others.NFC}</li>
+                         <li><span class="fw-bolder">Radio:</span> ${phoneId.others.Radio}</li>
+                         <li><span class="fw-bolder">USB:</span> ${phoneId.others.USB}</li>
+                         <li><span class="fw-bolder">WLAN:</span> ${phoneId.others.WLAN}</li>
+                     </ul>` : ''}
+                 </div>
+         </div>
+     `
+    window.scrollTo(0, 0);
 }
 // <----------showing details section ends----------->
 
