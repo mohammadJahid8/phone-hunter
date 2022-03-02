@@ -1,10 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&family=Ubuntu:wght@400;700&display=swap');
+html{
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+}
+#more-button{
+    display: none;
+}
 body{
     font-family: 'Poppins', sans-serif;
 }
 .title{
     font-family: 'Ubuntu', sans-serif;
     font-weight: 700;
+    
+}
+#spinner{
+    display: none;
 }
 /* ------icon styles----- */
 .mobile-icon{

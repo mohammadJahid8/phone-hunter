@@ -1,10 +1,11 @@
 //error msg
 document.getElementById('error-message').style.display = 'none';
-
 //  url fetched and load phone 
 const loadPhones = () => {
     const searchField = document.getElementById('search-field');
     const searchText = searchField.value
+    // show spinnerr 
+    document.getElementById('spinner').style.display = "block";
     // clear search field
     searchField.value = '';
     //error msg
@@ -16,30 +17,20 @@ const loadPhones = () => {
         const url = `https://openapi.programming-hero.com/api/phones?search=${searchText}`;
         fetch(url)
             .then(res => res.json())
-            .then(data => displayPhones(data.data.slice(0, 20)))
+            .then(data => {
+                displayPhones(data.data.slice(0, 20))
+                //showing more results
+                document.getElementById('more-button').addEventListener('click', () => {
+                    displayPhones(data.data.slice(0, 1000));
+                    document.getElementById('more-button').style.display = 'none';
+                })
+            })
             .catch(error => displayError(error));
     }
     //clearing details after new search
     const detailsContainer = document.getElementById('details-container');
     detailsContainer.textContent = '';
 }
-
-
-
-// const loadAllPhones = () => {
-//     const searchField = document.getElementById('search-field');
-//     const searchText = searchField.value
-
-//     const url = `https://openapi.programming-hero.com/api/phones?search=${searchText}`;
-//     fetch(url)
-//         .then(res => res.json())
-//         .then(data => displayPhones(data.data.slice(0, 20)))
-//         .catch(error => displayError(error));
-// }
-
-
-
-
 // showing error msg
 const displayError = error => {
     document.getElementById('error-message').style.display = 'block';
@@ -47,6 +38,9 @@ const displayError = error => {
 
 //<--------------display phones section starts------------------>
 const displayPhones = (phones) => {
+    const moreButton = document.getElementById('more-button');
+    moreButton.style.display = 'block';
+
     //getting phone container/search result
     const phoneContainer = document.getElementById('phone-container');
     phoneContainer.textContent = '';
@@ -63,13 +57,19 @@ const displayPhones = (phones) => {
                 <div class="card-body">
                     <h4 class="card-title">${phone.phone_name}</h4>
                     <h6 class="fs-5 card-text"><span class="fw-bolder ">Brand:</span>${phone.brand}</h6>
-                    <button onclick="loadPhoneDetails('${phone.slug}')" class="card-btn btn btn-success px-1 fs-6"><span class="btn-text">Show Details</span></button>
+                    <button onclick="loadPhoneDetails('${phone.slug}')" class="card-btn btn btn-success px-1 fs-6"> <a class="text-white text-decoration-none" href="#scroll"><span class="btn-text">Show Details</span></a></button>
                 </div>
             </div>
+            
         `
         phoneContainer.appendChild(div);
+
     })
+    document.getElementById('spinner').style.display = "none";
+    // toggleSpinner('none');
+
 }
+// <-----------display phones section ends------->
 
 // load details 
 const loadPhoneDetails = (phoneId) => {
@@ -78,8 +78,6 @@ const loadPhoneDetails = (phoneId) => {
         .then(response => response.json())
         .then(data => displayDetails(data.data));
 }
-// <-----------display phones section ends------->
-
 
 // <-----------showing details section starts------->
 const displayDetails = (phoneId) => {
@@ -87,7 +85,7 @@ const displayDetails = (phoneId) => {
     const detailsContainer = document.getElementById('details-container');
     detailsContainer.textContent = '';
     detailsContainer.innerHTML = `
-        <div class="card rounded-3 align-items-center shadow bg-body rounded border-0 pt-3" style="width: 18rem;">
+        <div class="card rounded-3 align-items-center shadow bg-body border-0 pt-3" style="width: 18rem;">
                 <img src="${phoneId.image}" class="card-img-top w-75" alt="...">
                 <div class="card-body gy-3">
                     <h6><span class="fw-bold">Name:</span> ${phoneId.name}</h6>
