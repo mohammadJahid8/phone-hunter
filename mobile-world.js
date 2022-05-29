@@ -86,7 +86,7 @@ const displayPhones = (phones) => {
         moreButton.style.display = 'none';
 
     }
-    phones.forEach((phone) => {
+    phones?.forEach((phone) => {
         const div = document.createElement('div');
         div.classList.add('col-md-6', 'col-lg-4');
         div.innerHTML = `
@@ -116,37 +116,43 @@ const loadPhoneDetails = (phoneId) => {
 }
 
 // <-----------showing details section starts------->
-const displayDetails = (phoneId) => {
-    //getting details container
-    const detailsContainer = document.getElementById('details-container');
-    detailsContainer.textContent = '';
-    detailsContainer.innerHTML = `
-         <div class="card rounded-3 align-items-center shadow bg-body border-0 pt-3" style="width: 18rem;">
-                 <img src="${phoneId.image}" class="card-img-top w-75" alt="...">
-                 <div class="card-body gy-3">
-                     <h6><span class="fw-bold">Name:</span> ${phoneId.name}</h6>
-                     <h6><span class="fw-bold">Realese Date:</span> ${phoneId.releaseDate === '' ? 'unavailable' : `${phoneId.releaseDate}`}</h6>
-                     <h6><span class="fw-bold">Brand:</span> ${phoneId.brand}</h6>
-                     <h6><span class="fw-bold">Storage:</span> ${phoneId.mainFeatures.storage}</h6>
-                     <h6><span class="fw-bold">Display Size:</span> ${phoneId.mainFeatures.displaySize}</h6>
-                     <h6><span class="fw-bold">Chipset:</span> ${phoneId.mainFeatures.chipSet}</h6>
-                     <h6><span class="fw-bold">Sensor:</span> ${arrayToString(phoneId.mainFeatures.sensors)}</h6>
-                     ${phoneId.others ? `
-                     <h5 class="fw-bold my-3">More Specifications</h5>
-                     <ul>
-                         <li><span class="fw-bolder">Bluetooth:</span> ${phoneId.others.Bluetooth}</li>
-                         <li><span class="fw-bolder">GPS:</span> ${phoneId.others.GPS}</li>
-                         <li><span class="fw-bolder">NFC:</span> ${phoneId.others.NFC}</li>
-                         <li><span class="fw-bolder">Radio:</span> ${phoneId.others.Radio}</li>
-                         <li><span class="fw-bolder">USB:</span> ${phoneId.others.USB}</li>
-                         <li><span class="fw-bolder">WLAN:</span> ${phoneId.others.WLAN}</li>
-                     </ul>` : ''}
-                 </div>
-         </div>
-     `
-    window.scrollTo(0, 0);
-}
+// const displayDetails = (phoneId) => {
+//     //getting details container
+//     const detailsContainer = document.getElementById('details-container');
+//     detailsContainer.textContent = '';
+//     detailsContainer.innerHTML = `
+//          <div class="card rounded-3 align-items-center shadow bg-body border-0 pt-3" style="width: 18rem;">
+//                  <img src="${phoneId.image}" class="card-img-top w-75" alt="...">
+//                  <div class="card-body gy-3">
+//                      <h6><span class="fw-bold">Name:</span> ${phoneId.name}</h6>
+//                      <h6><span class="fw-bold">Realese Date:</span> ${phoneId.releaseDate === '' ? 'unavailable' : `${phoneId.releaseDate}`}</h6>
+//                      <h6><span class="fw-bold">Brand:</span> ${phoneId.brand}</h6>
+//                      <h6><span class="fw-bold">Storage:</span> ${phoneId.mainFeatures.storage}</h6>
+//                      <h6><span class="fw-bold">Display Size:</span> ${phoneId.mainFeatures.displaySize}</h6>
+//                      <h6><span class="fw-bold">Chipset:</span> ${phoneId.mainFeatures.chipSet}</h6>
+//                      <h6><span class="fw-bold">Sensor:</span> ${arrayToString(phoneId.mainFeatures.sensors)}</h6>
+//                      ${phoneId.others ? `
+//                      <h5 class="fw-bold my-3">More Specifications</h5>
+//                      <ul>
+//                          <li><span class="fw-bolder">Bluetooth:</span> ${phoneId.others.Bluetooth}</li>
+//                          <li><span class="fw-bolder">GPS:</span> ${phoneId.others.GPS}</li>
+//                          <li><span class="fw-bolder">NFC:</span> ${phoneId.others.NFC}</li>
+//                          <li><span class="fw-bolder">Radio:</span> ${phoneId.others.Radio}</li>
+//                          <li><span class="fw-bolder">USB:</span> ${phoneId.others.USB}</li>
+//                          <li><span class="fw-bolder">WLAN:</span> ${phoneId.others.WLAN}</li>
+//                      </ul>` : ''}
+//                  </div>
+//          </div>
+//      `
+//     window.scrollTo(0, 0);
+// }
 // <----------showing details section ends----------->
+
+let modalWrap = null;
+const showModal = () => {
+    
+}
+
 
 // converting sensor array to string 
 function arrayToString(array) {
